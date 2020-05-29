@@ -123,7 +123,7 @@ for i in range(len(DP_Array)):
 #select DOI only
 for i in range(len(AID_Array)):
     link = findDOI(AID_Array[i])
-    DOI_Array.append(link)
+    DOI_Array.append(str(link))
 
 #select first author only
 for i in range(len(AU_Array)):
