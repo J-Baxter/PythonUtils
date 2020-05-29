@@ -1,4 +1,4 @@
-#Python scipt for generating csv and abstract list from PubMed database search
+#Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
 #J Baxter
 #28/05/20
 #29/05/20 - updated to improve DOI calling and output format
@@ -149,14 +149,14 @@ for i in range(DOI_Array.__len__()):
     file.write('\n')
     file.write(FAU_Array[i])
     file.write(' ')
-    file.write(YE_Array[i])
+    file.write(str(YE_Array[i]))
     file.write('\n')
     file.write('\n')
     file.write(AB_Array[i])
     file.write('\n')
     file.write('\n')
     file.write('PMID: ')
-    file.write(PMID_Array[i])
+    file.write(str(PMID_Array[i]))
     file.write('\n')
     file.write('DOI: ')
     file.write(DOI_Array[i])
