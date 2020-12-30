@@ -1,7 +1,5 @@
-#Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
-#J Baxter
-#28/05/20
-#29/05/20 - updated to improve DOI calling and output format
+##Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
+
 
 from Bio import Entrez, Medline
 import pandas as pd
@@ -10,8 +8,9 @@ import os
 from datetime import date
 import argparse
 
-#define functions
-def removeNA(input):
+
+# define functions
+def remove_na(input):
     for i in range(len(input)):
         b = input[i]
         if b.__class__ == float:
@@ -20,7 +19,8 @@ def removeNA(input):
             b = b
     return input
 
-def findDOI(input):
+
+def find_doi(input):
     output=[]
     for i in range(input.__len__()):
         if "doi" in input[i]:
@@ -34,21 +34,27 @@ def findDOI(input):
 
 
 # create output directory
-today = date.today()
-d1 = today.strftime("%d%b%y")
-propName = "PubMedResults_" + d1
+def get_dirname():
+    today = date.today()
+    d1 = today.strftime("%d%b%y")
+    prop_name = "PubMedResults_" + d1
 
-if os.path.isdir(propName) == True:
-    newName = "PubMedResults_" + d1 + "_{}"
-    counter = 1
-    while os.path.isdir(newName.format(counter)):
-        counter += 1
-    dirName = newName.format(counter)
-else:
-    dirName = propName
+    if os.path.isdir(prop_name):
+        new_name = "PubMedResults_" + d1 + "_{}"
+        counter = 1
+
+        while os.path.isdir(new_name.format(counter)):
+            counter += 1
+        dir_name = new_name.format(counter)
+
+    else:
+        dir_name = prop_name
+
+    return dir_name
 
 os.mkdir(dirName)
 os.chdir(dirName)
+
 
 def parser():
 
