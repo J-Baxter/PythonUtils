@@ -1,13 +1,12 @@
 ##Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
 
-
+#import modules
 from Bio import Entrez, Medline
 import pandas as pd
 import numpy as np
 import os
 from datetime import date
 import argparse
-
 
 # define functions
 def remove_na(input):
