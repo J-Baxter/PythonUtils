@@ -32,6 +32,7 @@ def findDOI(input):
 
     return output
 
+
 # create output directory
 today = date.today()
 d1 = today.strftime("%d%b%y")
@@ -49,6 +50,9 @@ else:
 os.mkdir(dirName)
 os.chdir(dirName)
 
+def parser():
+
+
 # define arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("query", help="search string for PubMed query")
@@ -56,6 +60,7 @@ args = parser.parse_args()
 
 print("\n","The search query you have defined is:", args.query)
 
+print("\n")
 print("\n")
 email = input("Please enter a valid email address to continue: ")
 
