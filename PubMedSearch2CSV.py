@@ -129,12 +129,15 @@ def reformat_records(records):
         FAU = AU[0]
         FAU_Array.append(str(FAU))
 
+    zipped_arrays = zip(pmid_array, ti_array, FAU_Array, YE_Array, DOI_Array, com_array, ab_array)
+
+    return zipped_arrays
 
 
-    return
+def output(zipped_arrays):
 
-
-def output():
+    unzipped = [list(t) for t in zip(*zipped_arrays)]
+    unzipped.
     print("\n", "Saving results to file...")
 
     # write csv containing key information (title author Id etc)
