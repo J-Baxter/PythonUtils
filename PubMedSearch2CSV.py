@@ -72,6 +72,16 @@ def search_entrez(email, query):
     return idlist
 
 
+def search_medline(idlist):
+    handle_2 = Entrez.efetch(db="pubmed", id=idlist, rettype="medline", retmode="text")
+    record_2 = Medline.parse(handle_2)
+    records = list(record_2)
+    print("Done")
+    print("\n", len(records), "records returned from Medline.")
+
+    return records
+
+
 def main():
     # define arguments for PubMed search from terminal
     parser = argparse.ArgumentParser()
@@ -93,14 +103,7 @@ def main():
 
 
 # Retrieve records from Medline
-def search_medline
-handle_2 = Entrez.efetch(db="pubmed", id=idlist, rettype="medline", retmode="text")
-record_2 = Medline.parse(handle_2)
 
-records = list(record_2)
-print("Done")
-
-print("\n", len(records), "records returned from Medline.")
 
 # export into pandas dataframe, then export to csv
 AID_Array = []
