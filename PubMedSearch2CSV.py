@@ -1,12 +1,13 @@
 ##Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
 
-#import modules
+# import modules
 from Bio import Entrez, Medline
 import pandas as pd
 import numpy as np
 import os
 from datetime import date
 import argparse
+
 
 # define functions
 def remove_na(input):
@@ -20,7 +21,7 @@ def remove_na(input):
 
 
 def find_doi(input):
-    output=[]
+    output = []
     for i in range(input.__len__()):
         if "doi" in input[i]:
             b = input[i]
@@ -51,41 +52,48 @@ def get_dirname():
 
     return dir_name
 
-os.mkdir(dirName)
-os.chdir(dirName)
+
+def search_entrez(email, query):
+    Entrez.email = email
+    handle = Entrez.egquery(term=query)
+    record_0 = Entrez.read(handle)
+    for row in record_0["eGQueryResult"]:
+        if row["DbName"] == "pubmed":
+            count = (row["Count"])
+
+    print("\n", "Your search query returned", count, "results from PubMed.")
+    print("\n", "Now retrieving records from MedLine...")
+
+    handle_1 = Entrez.esearch(db="pubmed", term=args.query, retmax=count)
+    record_1 = Entrez.read(handle_1)
+    handle_1.close()
+    idlist = record_1["IdList"]
+
+    return idlist
 
 
-def parser():
+def main():
+    # define arguments for PubMed search from terminal
+    parser = argparse.ArgumentParser()
+    parser.add_argument("query", help="search string for PubMed query")
+    args = parser.parse_args()
 
+    print("\n", "The search query you have defined is:", args.query)
+    print("\n")
 
-# define arguments
-parser = argparse.ArgumentParser()
-parser.add_argument("query", help="search string for PubMed query")
-args = parser.parse_args()
+    email = input("Please enter a valid email address to continue: ")
 
-print("\n","The search query you have defined is:", args.query)
+    # mkdir
+    workdir = get_dirname()
+    os.mkdir(workdir)
+    os.chdir(workdir)
 
-print("\n")
-print("\n")
-email = input("Please enter a valid email address to continue: ")
 
 # Initial Entrez search
-Entrez.email = email
-handle = Entrez.egquery(term=args.query)
-record_0 = Entrez.read(handle)
-for row in record_0["eGQueryResult"]:
-    if row["DbName"] == "pubmed":
-        count = (row["Count"])
 
-print("\n","Your search query returned", count, "results from PubMed.")
-print("\n","Now retrieving records from MedLine...")
-
-handle_1 = Entrez.esearch(db="pubmed", term=args.query, retmax=count)
-record_1 = Entrez.read(handle_1)
-handle_1.close()
-idlist = record_1["IdList"]
 
 # Retrieve records from Medline
+def search_medline
 handle_2 = Entrez.efetch(db="pubmed", id=idlist, rettype="medline", retmode="text")
 record_2 = Medline.parse(handle_2)
 
@@ -109,7 +117,7 @@ for record in records:
     DP_Array.append(record.get("DP", np.nan))
     AU_Array.append(record.get("AU", np.nan))
     TI_Array.append(record.get("TI", np.nan))
-    COM_Array.append(record.get("EIN|EFR|CRI|CFR|ECI|ECF|RPI|RPF|RIN|ROF" , 'none'))
+    COM_Array.append(record.get("EIN|EFR|CRI|CFR|ECI|ECF|RPI|RPF|RIN|ROF", 'none'))
     AB_Array.append(record.get("AB", np.nan))
 
 PMID_Array = removeNA(PMID_Array)
@@ -122,20 +130,20 @@ AB_Array = removeNA(AB_Array)
 
 YE_Array = []
 FAU_Array = []
-DOI_Array =[]
+DOI_Array = []
 
-#Select YOP only
+# Select YOP only
 for i in range(len(DP_Array)):
     DP = DP_Array[i]
     year = int(str(DP)[0:4])
     YE_Array.append(int(year))
 
-#select DOI only
+# select DOI only
 for i in range(len(AID_Array)):
     link = findDOI(AID_Array[i])
     DOI_Array.append(str(link))
 
-#select first author only
+# select first author only
 for i in range(len(AU_Array)):
     AU = AU_Array[i]
     FAU = AU[0]
@@ -143,16 +151,16 @@ for i in range(len(AU_Array)):
 
 print("\n", "Saving results to file...")
 
-df = pd.DataFrame(zip(PMID_Array, TI_Array, FAU_Array,  YE_Array, DOI_Array, COM_Array))
+df = pd.DataFrame(zip(PMID_Array, TI_Array, FAU_Array, YE_Array, DOI_Array, COM_Array))
 
-df.columns = ["PMID", "Title", "First Author" , "Publication Year", "DOI", "Observations"]
+df.columns = ["PMID", "Title", "First Author", "Publication Year", "DOI", "Observations"]
 
 filename = "queryresults_" + d1 + ".csv"
 df.to_csv(filename, index=False)
 
 filename2 = "searchabstracts" + d1 + ".txt"
 
-file = open(filename2 , "w+")
+file = open(filename2, "w+")
 for i in range(DOI_Array.__len__()):
     file.write(TI_Array[i])
     file.write('\n')
