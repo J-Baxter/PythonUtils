@@ -81,6 +81,16 @@ def search_medline(idlist):
 
     return records
 
+#refactor records into classes with attributes
+class Record:
+    def __init__(self, aid, dp, ti, pmid, com, au, ab):
+        self.aid = aid
+        self.dp = dp
+        self.ti = ti
+        self.pmid = pmid
+        self.com = com
+        self.au = au
+        self.ab = ab
 
 def reformat_records(records):
     aid_array = []
