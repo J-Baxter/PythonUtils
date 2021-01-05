@@ -11,7 +11,7 @@ class Search:
         self.idlist = idlist
         self.count = []
 
-    def search_entrez(self):
+    def entrez(self):
         Entrez.email = self.email
         handle = Entrez.egquery(term=self.query)
         record_0 = Entrez.read(handle)
@@ -29,7 +29,7 @@ class Search:
 
         return self.idlist
 
-    def search_medline(self):
+    def medline(self):
         handle_2 = Entrez.efetch(db="pubmed", id=self.idlist, rettype="medline", retmode="text")
         record_2 = Medline.parse(handle_2)
         records = list(record_2)
