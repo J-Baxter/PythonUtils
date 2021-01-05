@@ -32,8 +32,8 @@ class Search:
     def medline(self):
         handle_2 = Entrez.efetch(db="pubmed", id=self.idlist, rettype="medline", retmode="text")
         record_2 = Medline.parse(handle_2)
-        records = list(record_2)
+        xmls = list(record_2)
         print("Done")
-        print("\n", len(records), "records returned from Medline.")
+        print("\n", len(xmls), "records returned from Medline.")
 
-        return records
+        return xmls

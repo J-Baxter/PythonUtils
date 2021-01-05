@@ -9,6 +9,7 @@ import os
 from datetime import date
 import argparse
 from records import Record
+from searches import Search
 
 # define functions
 def remove_na(input):
