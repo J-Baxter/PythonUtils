@@ -2,7 +2,7 @@
 # remember to use ''.
 
 # import modules
-from Bio import Entrez, Medline
+
 import pandas as pd
 import numpy as np
 import os
@@ -54,33 +54,7 @@ def get_dirname():
     return dir_name
 
 
-def search_entrez(email, query):
-    Entrez.email = email
-    handle = Entrez.egquery(term=query)
-    record_0 = Entrez.read(handle)
-    for row in record_0["eGQueryResult"]:
-        if row["DbName"] == "pubmed":
-            count = (row["Count"])
 
-    print("\n", "Your search query returned", count, "results from PubMed.")
-    print("\n", "Now retrieving records from MedLine...")
-
-    handle_1 = Entrez.esearch(db="pubmed", term=args.query, retmax=count)
-    record_1 = Entrez.read(handle_1)
-    handle_1.close()
-    idlist = record_1["IdList"]
-
-    return idlist
-
-
-def search_medline(idlist):
-    handle_2 = Entrez.efetch(db="pubmed", id=idlist, rettype="medline", retmode="text")
-    record_2 = Medline.parse(handle_2)
-    records = list(record_2)
-    print("Done")
-    print("\n", len(records), "records returned from Medline.")
-
-    return records
 
 #refactor records into classes with attributes
 
