@@ -1,4 +1,5 @@
-##Python scipt for generating csv and abstract list from PubMed database search. For complex search terms, remember to use ''.
+##Generating csv and abstract list from PubMed database search through command line interface. For complex search terms,
+# remember to use ''.
 
 # import modules
 from Bio import Entrez, Medline
@@ -7,7 +8,7 @@ import numpy as np
 import os
 from datetime import date
 import argparse
-
+from records import Record
 
 # define functions
 def remove_na(input):
@@ -82,15 +83,7 @@ def search_medline(idlist):
     return records
 
 #refactor records into classes with attributes
-class Record:
-    def __init__(self, aid, dp, ti, pmid, com, au, ab):
-        self.aid = aid
-        self.dp = dp
-        self.ti = ti
-        self.pmid = pmid
-        self.com = com
-        self.au = au
-        self.ab = ab
+
 
 def reformat_records(records):
     aid_array = []
