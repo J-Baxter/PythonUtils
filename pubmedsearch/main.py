@@ -165,19 +165,22 @@ def main():
     print("\n", "The search query you have defined is:", args.query)
     print("\n")
 
-    email = input("Please enter a valid email address to continue: ")
+    email = 'james.baxter@ed.ac.uk'
+    #input("Please enter a valid email address to continue: ")
 
     # mkdir
     workdir = get_dirname()
     os.mkdir(workdir)
     os.chdir(workdir)
 
+    idlist = []
+    search_1 = Search(email, args.query, idlist)
 
 # Initial Entrez search
-
+    coords = search_1.entrez()
 
 # Retrieve records from Medline
-
+    xml_records =
 
 # export into pandas dataframe, then export to csv
 
